@@ -168,10 +168,12 @@ func processingClientRequest(request string, wg *sync.WaitGroup)(string, error) 
 		}
 
 		newVersion := parsingDataFromClient(pl[1:])
+		newVersion = append([]byte{0x4f, 0x07, 0x8d}, newVersion...)
+		xxx, _ := SignBytesLE(newVersion)
 
 		fmt.Println("old version:::::::::::::", newCommand)
 		fmt.Println(":::::::::::::")
-		fmt.Println("old version:::::::::::::", newVersion)
+		fmt.Println("new version:::::::::::::", xxx)
 
 		_ =  currentSystem.gasAnalyzer[0].sendCommand(newCommand, 0)
 
