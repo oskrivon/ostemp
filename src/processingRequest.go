@@ -168,7 +168,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup)(string, error) 
 		}
 
 		newVersion := parsingDataFromClient(pl[1:])
-		newVersion = append([]byte{0x4f, 0x07, 0x8d}, newVersion...)
+		newVersion = append([]byte{0x4f, 0x07, 0x8d, 0x7b}, newVersion...)
 		xxx, _ := SignBytesLE(newVersion)
 
 		fmt.Println("old version:::::::::::::", newCommand)

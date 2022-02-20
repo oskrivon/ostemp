@@ -189,8 +189,6 @@ class GasBench(QtWidgets.QMainWindow):
         settings = []
         send_string = ""
 
-        settings.append(self.gui.humidity_2.text())
-
         for i in range(0, 4):
             for j in range(0, 11):
                 settings.append(self.gui.tableGASettings.item(j, i).text())
@@ -202,11 +200,17 @@ class GasBench(QtWidgets.QMainWindow):
                     number_of_gas = j
             settings[i * 11] = str(number_of_gas)
 
+        xxx = [self.gui.humidity_2.text()]
+
+        xxx.extend(settings)
+        settings = xxx
+        print("::::::::::", xxx)
+
         for i in settings:
             send_string = send_string + str(i) + " "
         send_string = send_string + "|"
 
-        print("settings >>>>", send_string)
+        print("settings >>>>", settings)
 
         # value_0 = self.gui.tableGASettings.item(10, 0).text()
         # value_1 = self.gui.tableGASettings.item(10, 1).text()
@@ -329,7 +333,8 @@ class GasBench(QtWidgets.QMainWindow):
             print(server_array)
 
             # wrong widjet name!!!!!!
-            self.gui.humidity_2.setText(server_array[2])
+            self.gui.humidity_2.setText(
+                bytes.fromhex(server_array[2]).decode('utf-8'))
 
             sells_settings = server_array[3:]
             print(">>>>>>", sells_settings)
