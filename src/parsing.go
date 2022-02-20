@@ -130,11 +130,12 @@ func parseResponse(in []byte, marker string) (response string, err error) {
 				strconv.FormatFloat(float64(ds.baseLineShift), 'f', -1, 64) + " "
 			//fmt.Println("ds:", resultString)
 		}
+
+	case "set ga options":
+
+
 	case "get flow":
 		resultString = "get_flow "
-		//buf := bytes.NewReader(in)
-
-		//var r int8
 		
 		k := 1.41 / 125
 		r := uint8(in[0])
@@ -209,4 +210,67 @@ func parseResponse(in []byte, marker string) (response string, err error) {
 
 	fmt.Println("result: ", resultString)
 	return resultString, nil
+}
+
+func parsingDataFromClient(data []string) []byte {
+	var (
+		err error
+		result []byte
+	)
+
+	for i := 0; i < 4; i++ {
+		for j := 0; j < 11; j++ {
+			switch j {
+			case 0, 3, 4:
+				var x uint64
+				x, err = strconv.ParseUint(data[i * 11 + j], 10, 8)
+				if err != nil {
+					x = 0
+					fmt.Println("error parsing client data", err)
+				}
+				result = append(result, toByte(uint8(x))...)
+
+			case 1, 2, 7, 8, 10:
+				var x float64
+				x, err = strconv.ParseFloat(data[i * 11 + j], 32)
+				if err != nil {
+					x = 0
+					fmt.Println("error parsing client data", err)
+				}
+				result = append(result, toByte(x)...)
+
+			case 5, 6:
+				var x uint64
+				x, err = strconv.ParseUint(data[i * 11 + j],10, 32)
+				if err != nil {
+					x = 0
+					fmt.Println("error parsing client data", err)
+				}
+				result = append(result, toByte(uint32(x))...)
+
+			case 9:
+				var x uint64
+				x, err = strconv.ParseUint(data[i * 11 + j],10, 32)
+				if err != nil {
+					x = 0
+					fmt.Println("error parsing client data", err)
+				}
+				result = append(result, toByte(uint16(x))...)
+				
+			}
+		}
+	}
+
+	return result
+}
+
+func toByte(in interface{}) []byte {
+	buf := new(bytes.Buffer)
+	err := binary.Write(buf, binary.LittleEndian, in)
+	if err != nil {
+		in = 0
+		fmt.Println("error parsing client data", err)
+	}
+
+	return buf.Bytes()
 }

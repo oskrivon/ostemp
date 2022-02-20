@@ -123,8 +123,9 @@ class GasBench(QtWidgets.QMainWindow):
         self.gui.pushButton.clicked.connect(self.send_flow_value)
 
         self.curve = []
-        self.timer_graph = [[],[],[],[]]
-        self.data_arrays = [np.array([]), np.array([]), np.array([]), np.array([])]
+        self.timer_graph = [[], [], [], []]
+        self.data_arrays = [np.array([]), np.array(
+            []), np.array([]), np.array([])]
 
         self.curve.append(self.gui.graph_1.plot(pen="y"))
         self.curve.append(self.gui.graph_2.plot(pen="y"))
@@ -138,15 +139,8 @@ class GasBench(QtWidgets.QMainWindow):
         self.gui.reset_graph_2.clicked.connect(lambda: self.graph_reset(2))
         self.gui.reset_graph_3.clicked.connect(lambda: self.graph_reset(3))
 
-        # self.gui.reset_graph_1.clicked.connect(self.graph_reset(1))
-        # self.gui.reset_graph_2.clicked.connect(self.graph_reset(2))
-        # self.gui.reset_graph_3.clicked.connect(self.graph_reset(3))
-
-        gas_types_widget = []
-        # gas_types_widget[0] = self.gui.gas_type_0
-        # gas_types_widget[1] = self.gui.gas_type_1
-        # gas_types_widget[2] = self.gui.gas_type_2
-        # gas_types_widget[3] = self.gui.gas_type_3
+        self.gas_types_widget = [
+            self.gui.gas_type_0, self.gui.gas_type_1, self.gui.gas_type_2, self.gui.gas_type_3]
 
         self.show()
 
@@ -192,43 +186,57 @@ class GasBench(QtWidgets.QMainWindow):
         print(gas_type, target_flow, target_concentration)
 
     def send_gas_sensor_params(self):
-        # self.get_gas_sensor_params
-        # self.get_gas_sensor_params()
+        settings = []
+        send_string = ""
 
-        #cell = self.gui.tableGASettings.item(0, 0).text()
-        #current = self.gui.Current.text()
+        for i in range(0, 4):
+            for j in range(0, 11):
+                settings.append(self.gui.tableGASettings.item(j, i).text())
 
-        value_0 = self.gui.tableGASettings.item(10, 0).text()
-        value_1 = self.gui.tableGASettings.item(10, 1).text()
-        value_2 = self.gui.tableGASettings.item(10, 2).text()
-        value_3 = self.gui.tableGASettings.item(10, 3).text()
+        for i in range(0, 4):
+            number_of_gas = 0
+            for j in range(0, len(self.gas) - 1):
+                if self.gas[j] == settings[i * 11]:
+                    number_of_gas = j
+            settings[i * 11] = str(number_of_gas)
 
-        value_4 = self.gui.tableGASettings.item(8, 0).text()
-        value_5 = self.gui.tableGASettings.item(8, 1).text()
-        value_6 = self.gui.tableGASettings.item(8, 2).text()
-        value_7 = self.gui.tableGASettings.item(8, 3).text()
+        for i in settings:
+            send_string = send_string + str(i) + " "
+        send_string = send_string + "|"
 
-        parameters['amp2ppm_0'] = value_4
-        parameters['amp2ppm_1'] = value_5
-        parameters['amp2ppm_2'] = value_6
-        parameters['amp2ppm_3'] = value_7
+        print("settings >>>>", send_string)
 
-        parameters['base_line_0'] = value_0
-        parameters['base_line_1'] = value_1
-        parameters['base_line_2'] = value_2
-        parameters['base_line_3'] = value_3
+        # value_0 = self.gui.tableGASettings.item(10, 0).text()
+        # value_1 = self.gui.tableGASettings.item(10, 1).text()
+        # value_2 = self.gui.tableGASettings.item(10, 2).text()
+        # value_3 = self.gui.tableGASettings.item(10, 3).text()
 
-        send_string = str(value_0) + " " + str(value_1) + \
-            " " + str(value_2) + " " + str(value_3) + " " + str(value_4) + " " + \
-            str(value_5) + " " + str(value_6) + " " + str(value_7) + " " + "|"
-        self.send_to_server("set_ga", send_string)
+        # value_4 = self.gui.tableGASettings.item(8, 0).text()
+        # value_5 = self.gui.tableGASettings.item(8, 1).text()
+        # value_6 = self.gui.tableGASettings.item(8, 2).text()
+        # value_7 = self.gui.tableGASettings.item(8, 3).text()
 
-        with open(FILENAME, "w", newline="") as file:
-            columns = columns
-            writer = csv.DictWriter(file, fieldnames=columns)
-            writer.writeheader()
+        # parameters['amp2ppm_0'] = value_4
+        # parameters['amp2ppm_1'] = value_5
+        # parameters['amp2ppm_2'] = value_6
+        # parameters['amp2ppm_3'] = value_7
 
-        writer.writerow(parameters)
+        # parameters['base_line_0'] = value_0
+        # parameters['base_line_1'] = value_1
+        # parameters['base_line_2'] = value_2
+        # parameters['base_line_3'] = value_3
+
+        # send_string = str(value_0) + " " + str(value_1) + \
+        #     " " + str(value_2) + " " + str(value_3) + " " + str(value_4) + " " + \
+        #     str(value_5) + " " + str(value_6) + " " + str(value_7) + " " + "|"
+        # self.send_to_server("set_ga", send_string)
+
+        # with open(FILENAME, "w", newline="") as file:
+        #     columns = columns
+        #     writer = csv.DictWriter(file, fieldnames=columns)
+        #     writer.writeheader()
+
+        # writer.writerow(parameters)
         # time.sleep(2)
 
         self.get_gas_sensor_params()
@@ -294,20 +302,7 @@ class GasBench(QtWidgets.QMainWindow):
     gas[12] = "HF"
     gas[12] = "Cl2"
 
-    # gas_types_widget = []
-    # gas_types_widget[0] = gui.gas_type_0
-
-    # curve = []
     time = []
-
-    #a = np.array([0, 0, 0, 0])
-
-    #data_arrays = [np.array([]), np.array([]), np.array([]), np.array([])]
-
-    # np_array_0 = np.array([0])
-    # np_array_1 = np.array([0])
-    # np_array_2 = np.array([0])
-    # np_array_3 = np.array([0])
 
     def server_receive(self, server_data):
         server_array = server_data.split(" ")
@@ -321,23 +316,34 @@ class GasBench(QtWidgets.QMainWindow):
             print(server_array)
             self.graphs_update(server_array[1:])
 
-            self.sampling_depth = self.gui.GasType_3.text() # wrong name of the textfield!!!!!
+            # wrong name of the textfield!!!!!
+            self.sampling_depth = self.gui.GasType_3.text()
             for i in self.data_arrays:
                 self.average = np.mean(i[-self.sampling_depth:])
             self.gui.average_0.setText
 
         elif server_array[0] == "ga_options":
-            for i in range(3, 14):
+            print(server_array)
+
+            # wrong widjet name!!!!!!
+            self.gui.humidity_2.setText(server_array[2])
+
+            sells_settings = server_array[3:]
+            print(">>>>>>", sells_settings)
+
+            for i in range(0, 11):
                 for j in range(0, 4):
                     self.gui.tableGASettings.setItem(
-                        i-3, j, QTableWidgetItem(server_array[i + j * 11]))
-                    if (i == 3 and j == 0) or (i == 3 and j == 1) or (i == 3 and j == 2) or (i == 3 and j == 3):
-                        self.gui.tableGASettings.setItem(
-                            i-3, j, QTableWidgetItem(self.gas[server_array[i + j * 11]]))
-                        self.gas_types_widget[j].setText(
-                            self.gas[server_array[i + j * 11]])
+                        i, j, QTableWidgetItem(sells_settings[i + j * 11]))
 
-            #self.gui.tableGASettings.setItem(1, 0, QTableWidgetItem(server_array[4]))
+            for i in range(0, 4):
+                self.gui.tableGASettings.setItem(0, i, QTableWidgetItem(
+                    self.gas[int(sells_settings[i * 11])]))
+
+            for i in range(0, 4):
+                self.gas_types_widget[i].setText(
+                    self.gas[int(sells_settings[i * 11])])
+
         elif server_array[0] == "get_flow":
             self.gui.tableFlowSettings.setItem(
                 1, 0, QTableWidgetItem(server_array[1]))
@@ -360,7 +366,8 @@ class GasBench(QtWidgets.QMainWindow):
 
         current_time = datetime.now()
 
-        current_time_representation = current_time.hour + current_time.minute / 60 + current_time.second / 3600
+        current_time_representation = current_time.hour + \
+            current_time.minute / 60 + current_time.second / 3600
         for i in self.timer_graph:
             i.append(current_time_representation)
 
@@ -378,8 +385,9 @@ class GasBench(QtWidgets.QMainWindow):
 
         for k in range(0, len(self.data_arrays)):
             self.data_arrays[k] = np.append(self.data_arrays[k], x_in[k])
-            forPainting = np.column_stack((self.timer_graph[k], self.data_arrays[k]))
-        
+            forPainting = np.column_stack(
+                (self.timer_graph[k], self.data_arrays[k]))
+
             self.curve[k].setData(forPainting[:])
 
     def graph_reset(self, button_id):
@@ -388,14 +396,15 @@ class GasBench(QtWidgets.QMainWindow):
             self.data_arrays[button_id] = []
             self.timer_graph[button_id] = []
 
-            forPainting = np.column_stack((self.timer_graph[button_id], self.data_arrays[button_id]))
-        
+            forPainting = np.column_stack(
+                (self.timer_graph[button_id], self.data_arrays[button_id]))
+
             self.curve[button_id].setData(forPainting[:])
 
         except Exception:
-            print ("zeroing error")
+            print("zeroing error")
         else:
-            print ("zeroing ok")
+            print("zeroing ok")
 
 
 def port_scanner():

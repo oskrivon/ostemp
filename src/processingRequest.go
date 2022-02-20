@@ -167,6 +167,12 @@ func processingClientRequest(request string, wg *sync.WaitGroup)(string, error) 
 			responseLenght: 0,
 		}
 
+		newVersion := parsingDataFromClient(pl[1:])
+
+		fmt.Println("old version:::::::::::::", newCommand)
+		fmt.Println(":::::::::::::")
+		fmt.Println("old version:::::::::::::", newVersion)
+
 		_ =  currentSystem.gasAnalyzer[0].sendCommand(newCommand, 0)
 
 		result = "ok"
