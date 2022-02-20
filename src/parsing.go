@@ -218,6 +218,9 @@ func parsingDataFromClient(data []string) []byte {
 		result []byte
 	)
 
+	result = append(result, []byte(data[0])...)
+	data = data[1:]
+
 	for i := 0; i < 4; i++ {
 		for j := 0; j < 11; j++ {
 			switch j {

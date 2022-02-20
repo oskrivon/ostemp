@@ -189,6 +189,8 @@ class GasBench(QtWidgets.QMainWindow):
         settings = []
         send_string = ""
 
+        settings.append(self.humidity_2.text())
+
         for i in range(0, 4):
             for j in range(0, 11):
                 settings.append(self.gui.tableGASettings.item(j, i).text())
