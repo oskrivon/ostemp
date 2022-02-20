@@ -239,6 +239,7 @@ class GasBench(QtWidgets.QMainWindow):
         # writer.writerow(parameters)
         # time.sleep(2)
 
+        self.send_to_server("set_ga", send_string)
         self.get_gas_sensor_params()
 
     def send_flow_value(self):

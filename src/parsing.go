@@ -272,5 +272,7 @@ func toByte(in interface{}) []byte {
 		fmt.Println("error parsing client data", err)
 	}
 
+	fmt.Println("___", in, ":::", buf.Bytes())
+
 	return buf.Bytes()
 }
