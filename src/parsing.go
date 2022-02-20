@@ -237,7 +237,7 @@ func parsingDataFromClient(data []string) []byte {
 					x = 0
 					fmt.Println("error parsing client data", err)
 				}
-				result = append(result, toByte(x)...)
+				result = append(result, toByte(float32(x))...)
 
 			case 5, 6:
 				var x uint64
