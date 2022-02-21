@@ -126,7 +126,7 @@ func parseResponse(in []byte, marker string) (response string, err error) {
 				strconv.FormatFloat(float64(ds.rangeMin), 'f', -1, 64) + " " +
 				strconv.FormatFloat(float64(ds.rangeMax), 'f', -1, 64) + " " +
 				strconv.FormatFloat(float64(math.Round(float64(ds.resolution * 1000)) / 1000), 'f', -1, 64) + " " +
-				strconv.FormatFloat(float64(ds.amp2ppm)*1000*1000*1000, 'f', -1, 64) + " " +
+				strconv.FormatFloat(float64(math.Round(float64(ds.amp2ppm*1000*1000*1000))), 'f', -1, 64) + " " +
 				strconv.FormatFloat(float64(ds.responseTime), 'f', -1, 64) + " " +
 				strconv.FormatFloat(float64(math.Round(float64(ds.baseLineShift * 100)) / 100), 'f', -1, 64) + " "
 			//fmt.Println("ds:", resultString)ds.baseLineShift
