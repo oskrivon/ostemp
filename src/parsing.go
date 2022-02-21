@@ -233,7 +233,16 @@ func parsingDataFromClient(data []string) []byte {
 				}
 				result = append(result, toByte(uint8(x))...)
 
-			case 1, 2, 7, 8, 10:
+			case 1, 2, 7, 10:
+				var x float64
+				x, err = strconv.ParseFloat(data[i * 11 + j], 32)
+				if err != nil {
+					x = 0
+					fmt.Println("error parsing client data", err)
+				}
+				result = append(result, toByte(float32(x))...)
+
+			case 8:
 				var x float64
 				x, err = strconv.ParseFloat(data[i * 11 + j], 32)
 				if err != nil {
