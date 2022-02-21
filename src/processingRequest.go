@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"encoding/binary"
 	"fmt"
 	"strconv"
 	"strings"
@@ -92,7 +90,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup)(string, error) 
 
 		fmt.Println("response >>>> ", response)
 
-		var newSettings, firstPart, secondPart, modifiedPart []byte
+/* 		var newSettings, firstPart, secondPart, modifiedPart []byte
 		var beginPlace int
 
 		for i := 0; i < 4; i++ {
@@ -158,18 +156,18 @@ func processingClientRequest(request string, wg *sync.WaitGroup)(string, error) 
 			newSettings, _ := SignBytesLE(newSettings)
 
 			response = newSettings
-		}
-
-		newSettings, _ = SignBytesLE(newSettings)
-
-		newCommand := command{
-			instruction: newSettings,
-			responseLenght: 0,
-		}
+		} */
 
 		newVersion := parsingDataFromClient(pl[1:])
 		newVersion = append([]byte{0x4f, 0x07, 0x8d, 0x7b}, newVersion...)
 		xxx, _ := SignBytesLE(newVersion)
+
+		//newSettings, _ = SignBytesLE(newSettings)
+
+		newCommand := command{
+			instruction: xxx,
+			responseLenght: 0,
+		}
 
 		fmt.Println("old version:::::::::::::", newCommand)
 		fmt.Println(":::::::::::::")
