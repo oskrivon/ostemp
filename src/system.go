@@ -76,7 +76,7 @@ func createSystem() systemComfig {
 	var system System
 	var systemComfig systemComfig
 
-	yamlFile, err := ioutil.ReadFile("config.yml")
+	yamlFile, err := ioutil.ReadFile("config.yaml")
 	if err != nil{
 		fmt.Println("error with file reading", err)
 	}
