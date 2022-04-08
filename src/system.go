@@ -101,6 +101,8 @@ func createSystem() systemComfig {
 	systemComfig.fcConfig.MinimumReadSize = system.FlowController.MinimumReadSize
 	systemComfig.fcConfig.ParityMode = serial.ParityMode(system.FlowController.ParityMode)
 	systemComfig.fcConfig.InterCharacterTimeout = system.FlowController.InterCharacterTimeout
+
+	fmt.Println(systemComfig)
 	
 	return systemComfig
 }
