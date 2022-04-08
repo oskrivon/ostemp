@@ -23,7 +23,7 @@ type System struct {
 		Port int `yaml:"port"` 
 	} `yaml:"server"`
 
-	GasAnalyser struct {
+	GasAnalyzer struct {
 		Port     string `yaml:"port"`
 		BaudRate uint `yaml:"baudRate"`
 		DataBits uint `yaml:"dataBits"`
@@ -31,7 +31,7 @@ type System struct {
 		MinimumReadSize uint `yaml:"minimumReadSize"`
 		ParityMode uint `yaml:"parityMode"`
 		InterCharacterTimeout uint `yaml:"interCharacterTimeout"`
-	} `yaml:"gasAnalyser"`
+	} `yaml:"gasAnalyzer"`
 
 	FlowController struct {
 		Port     string `yaml:"port"`
@@ -41,7 +41,7 @@ type System struct {
 		MinimumReadSize uint `yaml:"minimumReadSize"`
 		ParityMode uint `yaml:"parityMode"`
 		InterCharacterTimeout uint `yaml:"interCharacterTimeout"`
-	} `yaml:"gasAnalyser"`
+	} `yaml:"flowController"`
 }
 
 type gasAnalyzer struct {
@@ -86,13 +86,13 @@ func createSystem() systemComfig {
 		fmt.Println("error with config unmarshalling", err)
 	}
 
-	systemComfig.gaConfig.PortName = system.GasAnalyser.Port
-	systemComfig.gaConfig.BaudRate = system.GasAnalyser.BaudRate
-	systemComfig.gaConfig.DataBits = system.GasAnalyser.DataBits
-	systemComfig.gaConfig.StopBits = system.GasAnalyser.StopBits
-	systemComfig.gaConfig.MinimumReadSize = system.GasAnalyser.MinimumReadSize
-	systemComfig.gaConfig.ParityMode = serial.ParityMode(system.GasAnalyser.ParityMode)
-	systemComfig.gaConfig.InterCharacterTimeout = system.GasAnalyser.InterCharacterTimeout
+	systemComfig.gaConfig.PortName = system.GasAnalyzer.Port
+	systemComfig.gaConfig.BaudRate = system.GasAnalyzer.BaudRate
+	systemComfig.gaConfig.DataBits = system.GasAnalyzer.DataBits
+	systemComfig.gaConfig.StopBits = system.GasAnalyzer.StopBits
+	systemComfig.gaConfig.MinimumReadSize = system.GasAnalyzer.MinimumReadSize
+	systemComfig.gaConfig.ParityMode = serial.ParityMode(system.GasAnalyzer.ParityMode)
+	systemComfig.gaConfig.InterCharacterTimeout = system.GasAnalyzer.InterCharacterTimeout
 
 	systemComfig.fcConfig.PortName = system.FlowController.Port
 	systemComfig.fcConfig.BaudRate = system.FlowController.BaudRate
