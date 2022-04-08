@@ -83,7 +83,7 @@ func createSystem() systemComfig {
 
 	err = yaml.Unmarshal(yamlFile, &system)
 	if err != nil{
-		fmt.Println("error with config unmarshalling")
+		fmt.Println("error with config unmarshalling", err)
 	}
 
 	systemComfig.gaConfig.PortName = system.GasAnalyser.Port
