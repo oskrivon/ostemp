@@ -34,7 +34,7 @@ func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, e
 	
 			fmt.Println(uint16(value))
 			
-			response, err = currentSystem.flowController[0].sendCommand(commands["set flow"], 0x2, uint16(value), "set")
+			response, err = currentSystem.flowController.sendCommand(commands["set flow"], 0x2, uint16(value), "set")
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -44,7 +44,7 @@ func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, e
 			value = setPoint / k
 	
 			fmt.Println(uint16(value))
-			response, err = currentSystem.flowController[0].sendCommand(commands["set flow"], 0x3, uint16(value), "set")
+			response, err = currentSystem.flowController.sendCommand(commands["set flow"], 0x3, uint16(value), "set")
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -57,7 +57,7 @@ func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, e
 		go func() {
 			var flow1, flow2 string
 			result = "get_flow"
-			response, err = currentSystem.flowController[0].sendCommand(commands["get flow"], 0x2, 1, "get")
+			response, err = currentSystem.flowController.sendCommand(commands["get flow"], 0x2, 1, "get")
 			if err != nil {
 				result = "FC error"
 				fmt.Println("response from fc >>>> ", err)
@@ -66,7 +66,7 @@ func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, e
 				flow1, _ = parseResponse(response, "get flow")
 			}
 	
-			response, err = currentSystem.flowController[0].sendCommand(commands["get flow"], 0x3, 1, "get")
+			response, err = currentSystem.flowController.sendCommand(commands["get flow"], 0x3, 1, "get")
 			if err != nil {
 				result = "FC error"
 				fmt.Println("response from fc >>>> ", err)
@@ -82,7 +82,7 @@ func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, e
 	case "get_raw_data":
 		wg2.Add(1)
 		go func() {
-			response =  currentSystem.gasAnalyzer[0].sendCommand(commands["get raw sensor data"], 0)
+			response =  currentSystem.gasAnalyzer.sendCommand(commands["get raw sensor data"], 0)
 
 			result, err = parseResponse(response, "get raw sensor data")
 	
@@ -93,7 +93,7 @@ func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, e
 	case "get_ga":
 		wg2.Add(1)
 		go func() {
-			response =  currentSystem.gasAnalyzer[0].sendCommand(commands["get ga options"], 0)
+			response =  currentSystem.gasAnalyzer.sendCommand(commands["get ga options"], 0)
 
 			settings = response
 	
@@ -120,7 +120,7 @@ func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, e
 				responseLenght: 0,
 			}
 	
-			_ =  currentSystem.gasAnalyzer[0].sendCommand(newCommand, 0)
+			_ =  currentSystem.gasAnalyzer.sendCommand(newCommand, 0)
 	
 			result = "ok"
 	
@@ -131,7 +131,7 @@ func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, e
 	case "get_ppm":
 		wg2.Add(1)
 		go func() {
-			response = currentSystem.gasAnalyzer[0].sendCommand(commands["get ppm"], 0)
+			response = currentSystem.gasAnalyzer.sendCommand(commands["get ppm"], 0)
 
 			result, err = parseResponse(response, "get ppm")
 	

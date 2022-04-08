@@ -163,7 +163,7 @@ func clientMessageProcessing(message string, WG *sync.WaitGroup) (string, error)
 			fmt.Println("error reseive")
 		} */
 	case "get_flow":
-		result, err = currentSystem.flowController[0].sendCommand(commands["get flow"], 1, 1, "get")
+		result, err = currentSystem.flowController.sendCommand(commands["get flow"], 1, 1, "get")
 		if err != nil {
 			fmt.Println("request submission error")
 		}
@@ -172,7 +172,7 @@ func clientMessageProcessing(message string, WG *sync.WaitGroup) (string, error)
 
 		//<-c
 		wg.Add(1)
-		go currentSystem.gasAnalyzer[0].sendCommand(commands["set ga options"], 0)
+		go currentSystem.gasAnalyzer.sendCommand(commands["set ga options"], 0)
 		result = <-c
 		wg.Wait()
 
@@ -265,7 +265,7 @@ func clientMessageProcessing(message string, WG *sync.WaitGroup) (string, error)
 		fmt.Println("RAW DATA")
 
 		wg.Add(1)
-		go currentSystem.gasAnalyzer[0].sendCommand(commands["get raw sensor data"], 0)
+		go currentSystem.gasAnalyzer.sendCommand(commands["get raw sensor data"], 0)
 		result = <-c
 		wg.Wait()
 

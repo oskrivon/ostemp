@@ -53,8 +53,8 @@ type flowController struct {
 }
 
 type systemComfig struct {
-	flowController []flowController
-	gasAnalyzer []gasAnalyzer
+	flowController flowController
+	gasAnalyzer gasAnalyzer
 
 	gaConfig serial.OpenOptions
 	fcConfig serial.OpenOptions
@@ -75,11 +75,6 @@ type GBObject interface {
 func createSystem() systemComfig {
 	var system System
 	var systemComfig systemComfig
-	var fc flowController
-	var ga gasAnalyzer
-
-	systemComfig.flowController[0] = fc
-	systemComfig.gasAnalyzer[0] = ga
 
 	yamlFile, err := ioutil.ReadFile("config.yaml")
 	if err != nil{
