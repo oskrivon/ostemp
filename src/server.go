@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"strings"
-	"sync"
 )
 
 func server(network, address string) {
@@ -22,11 +21,11 @@ func server(network, address string) {
 		fmt.Println("no accept", err)
 	}
 
-	var wg sync.WaitGroup
+	//var wg sync.WaitGroup
 	var result string
 	//var settings []byte
 
-	for {	
+	for {
 		message, err := bufio.NewReader(conn).ReadString('|')
 		if err != nil {
 			fmt.Println("no accept: ", err)
@@ -42,14 +41,14 @@ func server(network, address string) {
 		fmt.Println(settings)
 		fmt.Println("------------________---------")
 
-		wg.Add(1)
+/* 		wg.Add(1)
 		go func() {
 			result, _ = processingClientRequest(str, &wg)
 		}()
-		wg.Wait()
+		wg.Wait() */
+
+		result, _ = processingClientRequest(str/* , &wg */)
 
 		conn.Write([]byte(result))
-
-		//time.Sleep(10 * time.Millisecond)
 	}
 }

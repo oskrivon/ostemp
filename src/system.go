@@ -1,21 +1,63 @@
 package main
 
-import "github.com/jacobsa/go-serial/serial"
+import (
+	"fmt"
+	"io/ioutil"
+
+	"github.com/jacobsa/go-serial/serial"
+	"gopkg.in/yaml.v3"
+)
+
+/* serial.OpenOptions{
+	PortName:        "/dev/ttyUSB1",
+	BaudRate:        9600,
+	DataBits:        8,
+	StopBits:        1,
+	MinimumReadSize: 5,
+	ParityMode:      serial.PARITY_NONE,
+	InterCharacterTimeout: 10000,
+}, */
+
+type System struct {
+	Server struct {
+		Port int `yaml:"port"` 
+	} `yaml:"server"`
+
+	GasAnalyser struct {
+		Port     string `yaml:"port"`
+		BaudRate uint `yaml:"baudRate"`
+		DataBits uint `yaml:"dataBits"`
+		StopBits uint `yaml:"stopBits"`
+		MinimumReadSize uint `yaml:"minimumReadSize"`
+		ParityMode uint `yaml:"parityMode"`
+		InterCharacterTimeout uint `yaml:"interCharacterTimeout"`
+	} `yaml:"gasAnalyser"`
+
+	FlowController struct {
+		Port     string `yaml:"port"`
+		BaudRate uint `yaml:"baudRate"`
+		DataBits uint `yaml:"dataBits"`
+		StopBits uint `yaml:"stopBits"`
+		MinimumReadSize uint `yaml:"minimumReadSize"`
+		ParityMode uint `yaml:"parityMode"`
+		InterCharacterTimeout uint `yaml:"interCharacterTimeout"`
+	} `yaml:"gasAnalyser"`
+}
 
 type gasAnalyzer struct {
+
 }
 
 type flowController struct {
-	address byte
+
 }
 
-type system struct {
-	port           string
-	gasAnalyzer    []gasAnalyzer
+type systemComfig struct {
 	flowController []flowController
-	//valve []Valve
+	gasAnalyzer []gasAnalyzer
 
-	gaOptions serial.OpenOptions
+	gaConfig serial.OpenOptions
+	fcConfig serial.OpenOptions
 }
 
 type command struct {
@@ -27,31 +69,40 @@ type command struct {
 }
 
 type GBObject interface {
-	sendCommand(system, command, byte) (string, error)
+	sendCommand(System, command, byte) (string, error)
 }
 
-func createSystem() system {
-	return system{
-		//port: "COM5",
-		port: "/dev/ttyUSB1",
-		gasAnalyzer: []gasAnalyzer{
-			{},
-		},
-		flowController: []flowController{
-			{
-				address: 0,
-			},
-		},
-		gaOptions: serial.OpenOptions{
-			PortName:        "/dev/ttyUSB1",
-			BaudRate:        9600,
-			DataBits:        8,
-			StopBits:        1,
-			MinimumReadSize: 5,
-			ParityMode:      serial.PARITY_NONE,
-			InterCharacterTimeout: 10000,
-		},
+func createSystem() systemComfig {
+	var system System
+	var systemComfig systemComfig
+
+	yamlFile, err := ioutil.ReadFile("./configs/config.yml")
+	if err != nil{
+		fmt.Println("error with file reading")
 	}
+
+	err = yaml.Unmarshal(yamlFile, &system)
+	if err != nil{
+		fmt.Println("error with config unmarshalling")
+	}
+
+	systemComfig.gaConfig.PortName = system.GasAnalyser.Port
+	systemComfig.gaConfig.BaudRate = system.GasAnalyser.BaudRate
+	systemComfig.gaConfig.DataBits = system.GasAnalyser.DataBits
+	systemComfig.gaConfig.StopBits = system.GasAnalyser.StopBits
+	systemComfig.gaConfig.MinimumReadSize = system.GasAnalyser.MinimumReadSize
+	systemComfig.gaConfig.ParityMode = serial.ParityMode(system.GasAnalyser.ParityMode)
+	systemComfig.gaConfig.InterCharacterTimeout = system.GasAnalyser.InterCharacterTimeout
+
+	systemComfig.fcConfig.PortName = system.FlowController.Port
+	systemComfig.fcConfig.BaudRate = system.FlowController.BaudRate
+	systemComfig.fcConfig.DataBits = system.FlowController.DataBits
+	systemComfig.fcConfig.StopBits = system.FlowController.StopBits
+	systemComfig.fcConfig.MinimumReadSize = system.FlowController.MinimumReadSize
+	systemComfig.fcConfig.ParityMode = serial.ParityMode(system.FlowController.ParityMode)
+	systemComfig.fcConfig.InterCharacterTimeout = system.FlowController.InterCharacterTimeout
+	
+	return systemComfig
 }
 
 type DataSensor struct {

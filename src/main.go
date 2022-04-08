@@ -14,12 +14,17 @@ import (
 )
 
 var logName string
-var currentSystem system
+var currentSystem systemComfig
 var commands map[string]command
 
 var settings []byte
 
 //var wg sync.WaitGroup
+
+type Material struct {
+	Quantity int `yaml:"quantity"`
+	TypeID   int `yaml:"typeID"`
+}
 
 func main() {
 	var err error
@@ -37,7 +42,7 @@ func main() {
 }
 
 func (ga *gasAnalyzer) sendCommand(command command, id byte /* , c chan []byte */) []byte {
-	port, err := serial.Open(currentSystem.gaOptions)
+	port, err := serial.Open(currentSystem.gaConfig)
 	if err != nil {
 		fmt.Println(err)
 		//c <- nil
@@ -90,11 +95,11 @@ func (ga *gasAnalyzer) sendCommand(command command, id byte /* , c chan []byte *
 }
 
 func (fc *flowController) sendCommand(command command, id byte, value uint16, tFlag string) (response []byte, err error) {
-	handler := modbus.NewRTUClientHandler("/dev/ttyUSB0")
-	handler.BaudRate = 19200
-	handler.DataBits = 8
+	handler := modbus.NewRTUClientHandler(currentSystem.fcConfig.PortName)
+	handler.BaudRate = int(currentSystem.fcConfig.BaudRate)
+	handler.DataBits = int(currentSystem.fcConfig.DataBits)
 	handler.Parity = "E"
-	handler.StopBits = 1
+	handler.StopBits = int(currentSystem.fcConfig.StopBits)
 	handler.SlaveId = id
 	handler.Timeout = 1 * time.Second
 
@@ -159,6 +164,9 @@ func clientMessageProcessing(message string, WG *sync.WaitGroup) (string, error)
 		} */
 	case "get_flow":
 		result, err = currentSystem.flowController[0].sendCommand(commands["get flow"], 1, 1, "get")
+		if err != nil {
+			fmt.Println("request submission error")
+		}
 	case "set_ga":
 		fmt.Println("ga settings", pl)
 
