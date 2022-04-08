@@ -24,7 +24,7 @@ type System struct {
 	} `yaml:"server"`
 
 	GasAnalyzer struct {
-		Port     string `yaml:"port"`
+		Port     string `yaml:"portName"`
 		BaudRate uint `yaml:"baudRate"`
 		DataBits uint `yaml:"dataBits"`
 		StopBits uint `yaml:"stopBits"`
@@ -34,7 +34,7 @@ type System struct {
 	} `yaml:"gasAnalyzer"`
 
 	FlowController struct {
-		Port     string `yaml:"port"`
+		Port     string `yaml:"portName"`
 		BaudRate uint `yaml:"baudRate"`
 		DataBits uint `yaml:"dataBits"`
 		StopBits uint `yaml:"stopBits"`
