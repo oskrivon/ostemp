@@ -102,7 +102,7 @@ func createSystem() systemComfig {
 	systemComfig.fcConfig.ParityMode = serial.ParityMode(system.FlowController.ParityMode)
 	systemComfig.fcConfig.InterCharacterTimeout = system.FlowController.InterCharacterTimeout
 
-	fmt.Println(systemComfig)
+	fmt.Println(system)
 	
 	return systemComfig
 }
