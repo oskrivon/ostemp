@@ -11,10 +11,10 @@ gasAnalyzer:
  interCharacterTimeout: 10000
 
 flowController:
-  portName: "/dev/ttyUSB0"
-	baudRate:        19200
-	dataBits:        8
-	stopBits:        1
-	minimumReadSize: 5
-	parityMode:      0
-	interCharacterTimeout: 1
+ portName: "/dev/ttyUSB0"
+ baudRate:        19200
+ dataBits:        8
+ stopBits:        1
+ minimumReadSize: 5
+ parityMode:      0
+ interCharacterTimeout: 1
