@@ -3,12 +3,12 @@ server:
 
 gasAnalyzer:
  portName: "/dev/ttyUSB1"
-	baudRate:        9600
-	dataBits:        8
-	stopBits:        1
-	minimumReadSize: 5
-	parityMode:      0
-	interCharacterTimeout: 10000
+ baudRate:        9600
+ dataBits:        8
+ stopBits:        1
+ minimumReadSize: 5
+ parityMode:      0
+ interCharacterTimeout: 10000
 
 flowController:
   portName: "/dev/ttyUSB0"
