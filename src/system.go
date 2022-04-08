@@ -78,7 +78,7 @@ func createSystem() systemComfig {
 
 	yamlFile, err := ioutil.ReadFile("config.yml")
 	if err != nil{
-		fmt.Println("error with file reading")
+		fmt.Println("error with file reading", err)
 	}
 
 	err = yaml.Unmarshal(yamlFile, &system)
