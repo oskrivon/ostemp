@@ -22,15 +22,15 @@ import time
 import yaml
 from pprint import pprint
 
-with open("gui\config.yaml") as f:
-    config = yaml.safe_load(f)
+#with open("gui\config.yaml") as f:
+#    config = yaml.safe_load(f)
 
-pprint(config)
+#pprint(config)
 # print("ip: ", config[0]["ip"])
 # print("gas: ", config[1]["gases"][0])
 
-#HOST = '10.0.0.253'
-HOST = config[0]["ip"]
+HOST = '10.70.0.228'
+#HOST = config[0]["ip"]
 PORT = 8081
 
 addr = (HOST, PORT)
