@@ -1,8 +1,8 @@
 server:
   port: 8081
 
-gasAnalyser:
-  portName: "/dev/ttyUSB1"
+gasAnalyzer:
+	portName: "/dev/ttyUSB1"
 	baudRate:        9600
 	dataBits:        8
 	stopBits:        1
