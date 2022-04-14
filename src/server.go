@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"strings"
+	"sync"
 )
 
 func server(network, address string) {
@@ -21,7 +22,7 @@ func server(network, address string) {
 		fmt.Println("no accept", err)
 	}
 
-	//var wg sync.WaitGroup
+	var wg1, wg2 sync.WaitGroup
 	var result string
 	//var settings []byte
 
@@ -47,7 +48,28 @@ func server(network, address string) {
 		}()
 		wg.Wait() */
 
-		result, _ = processingClientRequest(str/* , &wg */)
+		fmt.Println("client request >>>> ", str)
+
+		str1 := strings.TrimRight(str, "|")
+		pl := strings.Split(str1, " ")
+
+		switch pl[0] {
+		case "set_flow", "get_flow" :
+			wg1.Add(1)
+			go func() {
+				result, _ = processingClientRequest(str, &wg1)
+			}()
+			wg1.Wait()
+
+		case "get_raw_data", "get_ga", "set_ga", "get_ppm":
+			wg2.Add(1)
+			go func() {
+				result, _ = processingClientRequest(str, &wg2)
+			}()
+			wg2.Wait()
+		}
+
+		//result, _ = processingClientRequest(str/* , &wg */)
 
 		conn.Write([]byte(result))
 	}
