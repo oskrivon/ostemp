@@ -26,7 +26,7 @@ func server(network, address string) {
 	var result string
 	//var settings []byte]
 
-	ch := make(chan string) 
+	ch := make(chan string, 2) 
 
 	var mutex/* , mutex2  */sync.Mutex
 
