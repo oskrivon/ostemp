@@ -22,9 +22,11 @@ func server(network, address string) {
 		fmt.Println("no accept", err)
 	}
 
-	var wg1 sync.WaitGroup
+	//var wg1 sync.WaitGroup
 	var result string
 	//var settings []byte
+
+	var mutex sync.Mutex
 
 	for {
 		message, err := bufio.NewReader(conn).ReadString('|')
@@ -55,20 +57,17 @@ func server(network, address string) {
 
 		switch pl[0] {
 		case "set_flow", "get_flow" :
-			wg1.Add(1)
+			//wg1.Add(1)
 			go func() {
-				result, _ = processingClientRequest(str, &wg1)
+				result = processingClientRequest(str/* , &wg1 */)
 			}()
-			wg1.Wait()
+			//wg1.Wait()
 
 		case "get_raw_data", "get_ga", "set_ga", "get_ppm":
 			go func() {
-				var wg2 sync.WaitGroup
-				wg2.Add(1)
-				go func() {
-					result, _ = processingClientRequest(str, &wg2)
-				}()
-				wg2.Wait()
+				mutex.Lock()
+				result = processingClientRequest(str/* , &wg2 */)
+				mutex.Unlock()
 			}()
 		}
 
