@@ -26,7 +26,7 @@ func server(network, address string) {
 	var result string
 	//var settings []byte
 
-	var mutex sync.Mutex
+	var mutex, mutex2 sync.Mutex
 
 	for {
 		message, err := bufio.NewReader(conn).ReadString('|')
@@ -59,7 +59,9 @@ func server(network, address string) {
 		case "set_flow", "get_flow" :
 			//wg1.Add(1)
 			go func() {
+				mutex2.Lock()
 				result = processingClientRequest(str/* , &wg1 */)
+				mutex2.Unlock()
 			}()
 			//wg1.Wait()
 
