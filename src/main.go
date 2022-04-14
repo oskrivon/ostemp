@@ -38,9 +38,7 @@ func main() {
 
 	commands = safeCommands()
 
-	go func() { 
-		server("tcp", ":8081")
-	}()
+	server("tcp", ":8081")
 }
 
 func (ga *gasAnalyzer) sendCommand(command command, id byte /* , c chan []byte */) []byte {
