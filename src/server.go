@@ -22,13 +22,13 @@ func server(network, address string) {
 		fmt.Println("no accept", err)
 	}
 
-	//var wg1 sync.WaitGroup
+	var wg1, wg2 sync.WaitGroup
 	var result string
 	//var settings []byte]
 
-	ch := make(chan string, 2) 
+	//ch := make(chan string, 2) 
 
-	var mutex/* , mutex2  */sync.Mutex
+	//var mutex/* , mutex2  */sync.Mutex
 
 	for {
 		message, err := bufio.NewReader(conn).ReadString('|')
@@ -58,26 +58,25 @@ func server(network, address string) {
 		pl := strings.Split(str1, " ")
 
 		switch pl[0] {
-/* 		case "set_flow", "get_flow" :
-			//wg1.Add(1)
+		case "set_flow", "get_flow" :
+			wg1.Add(1)
 			go func() {
 				//mutex2.Lock()
-				ch <- processingClientRequest(str/* , &wg1 *///)
+				result = processingClientRequest(str, &wg1)
 				//mutex2.Unlock()
-			//}()
-			//wg1.Wait() */
-
-		case "set_flow", "get_flow", "get_raw_data", "get_ga", "set_ga", "get_ppm":
-			go func() {
-				mutex.Lock()
-				ch <- processingClientRequest(str/* , &wg2 */)
-				mutex.Unlock()
 			}()
+			wg1.Wait()
+
+		case "get_raw_data", "get_ga", "set_ga", "get_ppm":
+			wg2.Add(1)
+			go func() {
+				result = processingClientRequest(str, &wg2)
+			}()
+			wg2.Wait()
 		}
 
 		//result, _ = processingClientRequest(str/* , &wg */)
 
-		result = <- ch
 		conn.Write([]byte(result))
 	}
 }
