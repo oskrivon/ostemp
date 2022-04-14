@@ -62,13 +62,11 @@ func server(network, address string) {
 			wg1.Wait()
 
 		case "get_raw_data", "get_ga", "set_ga", "get_ppm":
+			//wg2.Add(1)
 			go func() {
-				wg2.Add(1)
-				go func() {
-					result, _ = processingClientRequest(str, &wg2)
-				}()
-				wg2.Wait()
+				result, _ = processingClientRequest(str, &wg2)
 			}()
+			//wg2.Wait()
 		}
 
 		//result, _ = processingClientRequest(str/* , &wg */)
