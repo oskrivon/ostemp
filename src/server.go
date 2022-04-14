@@ -24,7 +24,9 @@ func server(network, address string) {
 
 	//var wg1 sync.WaitGroup
 	var result string
-	//var settings []byte
+	//var settings []byte]
+
+	ch := make(chan string) 
 
 	var mutex, mutex2 sync.Mutex
 
@@ -59,8 +61,8 @@ func server(network, address string) {
 		case "set_flow", "get_flow" :
 			//wg1.Add(1)
 			go func() {
-				mutex2.Lock()
-				result = processingClientRequest(str/* , &wg1 */)
+				//mutex2.Lock()
+				ch <- processingClientRequest(str/* , &wg1 */)
 				mutex2.Unlock()
 			}()
 			//wg1.Wait()
@@ -68,13 +70,14 @@ func server(network, address string) {
 		case "get_raw_data", "get_ga", "set_ga", "get_ppm":
 			go func() {
 				mutex.Lock()
-				result = processingClientRequest(str/* , &wg2 */)
+				ch <- processingClientRequest(str/* , &wg2 */)
 				mutex.Unlock()
 			}()
 		}
 
 		//result, _ = processingClientRequest(str/* , &wg */)
 
+		result = <- ch
 		conn.Write([]byte(result))
 	}
 }
