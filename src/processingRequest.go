@@ -4,16 +4,17 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
-func processingClientRequest(request string/* , wg *sync.WaitGroup */)(string, error) {
+func processingClientRequest(request string, wg *sync.WaitGroup)(string, error) {
 	fmt.Println("client request >>>> ", request)
 
 	str := strings.TrimRight(request, "|")
 	pl := strings.Split(str, " ")
 
-	//defer wg.Done()
+	defer wg.Done()
 
 	var response []byte
 	var result string
