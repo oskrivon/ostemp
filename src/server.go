@@ -53,23 +53,21 @@ func server(network, address string) {
 		str1 := strings.TrimRight(str, "|")
 		pl := strings.Split(str1, " ")
 
-		go func() {
-			switch pl[0] {
-			case "set_flow", "get_flow" :
-				wg1.Add(2)
-				go func() {
-					result, _ = processingClientRequest(str, &wg1)
-				}()
-				wg1.Wait()
-	
-			case "get_raw_data", "get_ga", "set_ga", "get_ppm":
-				wg2.Add(1)
-				go func() {
-					result, _ = processingClientRequest(str, &wg2)
-				}()
-				wg2.Wait()
-			}
-		}()
+		switch pl[0] {
+		case "set_flow", "get_flow" :
+			//wg1.Add(1)
+			go func() {
+				result, _ = processingClientRequest(str, &wg1)
+			}()
+			//wg1.Wait()
+
+		case "get_raw_data", "get_ga", "set_ga", "get_ppm":
+			//wg2.Add(1)
+			go func() {
+				result, _ = processingClientRequest(str, &wg2)
+			}()
+			//wg2.Wait()
+		}
 
 		//result, _ = processingClientRequest(str/* , &wg */)
 
