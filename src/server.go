@@ -55,7 +55,7 @@ func server(network, address string) {
 
 		switch pl[0] {
 		case "set_flow", "get_flow" :
-			wg1.Add(100)
+			wg1.Add(10)
 			go func() {
 				result, _ = processingClientRequest(str, &wg1)
 			}()
