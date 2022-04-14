@@ -28,7 +28,7 @@ func server(network, address string) {
 
 	ch := make(chan string) 
 
-	var mutex, mutex2 sync.Mutex
+	var mutex/* , mutex2  */sync.Mutex
 
 	for {
 		message, err := bufio.NewReader(conn).ReadString('|')
@@ -63,7 +63,7 @@ func server(network, address string) {
 			go func() {
 				//mutex2.Lock()
 				ch <- processingClientRequest(str/* , &wg1 */)
-				mutex2.Unlock()
+				//mutex2.Unlock()
 			}()
 			//wg1.Wait()
 
