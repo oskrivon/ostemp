@@ -60,13 +60,13 @@ func server(network, address string) {
 		switch pl[0] {
 		case "set_flow", "get_flow" :
 			
-			wg1.Add(1)
+			//wg1.Add(1)
 			go func() {
 				//mutex2.Lock()
 				result = processingClientRequest(str, &wg1)
 				//mutex2.Unlock()
 			}()
-			wg1.Wait()
+			//wg1.Wait()
 
 		case "get_raw_data", "get_ga", "set_ga", "get_ppm":
 			//wg2.Add(1)
