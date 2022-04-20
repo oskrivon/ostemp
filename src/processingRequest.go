@@ -16,7 +16,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		err error
 	)
 
-	gaFlag = true
+	//gaFlag = true
 	fmt.Println(">>>> flag is ", gaFlag)
 
 	str := strings.TrimRight(request, "|")
@@ -25,6 +25,10 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 	//defer wg.Done()
 
 	//c := make(chan []byte)
+
+/* 	if pl[0] != "set_flow" || pl[0] != "get_flow" {
+		gaFlag = true
+	} */
 	
 	switch pl[0] {
 	case "set_flow":
@@ -74,6 +78,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		result = result + " " + flow1 + " " + flow2
 
 	case "get_raw_data":
+		gaFlag = true
 		response =  currentSystem.gasAnalyzer.sendCommand(commands["get raw sensor data"], 0)
 
 		result, err = parseResponse(response, "get raw sensor data")
@@ -84,6 +89,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		time.Sleep(1 * time.Second)
 
 	case "get_ga":
+		gaFlag = true
 		response =  currentSystem.gasAnalyzer.sendCommand(commands["get ga options"], 0)
 
 		settings = response
@@ -93,6 +99,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		time.Sleep(1 * time.Second)
 
 	case "set_ga":
+		gaFlag = true
 		response = settings
 
 		fmt.Println("response >>>> ", response)
@@ -113,6 +120,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		time.Sleep(1 * time.Second)
 
 	case "get_ppm":
+		gaFlag = true
 		response = currentSystem.gasAnalyzer.sendCommand(commands["get ppm"], 0)
 
 		result, err = parseResponse(response, "get ppm")
@@ -124,7 +132,10 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		time.Sleep(1 * time.Second)
 	}
 
-	gaFlag = false
+	if gaFlag {
+		gaFlag = false
+	}
+	//gaFlag = false
 	fmt.Println(result)
 	return result
 }
