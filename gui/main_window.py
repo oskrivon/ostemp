@@ -214,7 +214,7 @@ class GasBench(QtWidgets.QMainWindow):
 
         xxx.extend(settings)
         settings = xxx
-        print("::::::::::", xxx)
+        print("___________________ip: ", xxx)
 
         for i in settings:
             send_string = send_string + str(i) + " "
