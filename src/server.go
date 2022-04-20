@@ -81,7 +81,7 @@ func server(network, address string) {
 					conn.Write([]byte(""))
 				}()
 			} else {
-				result = "busy "
+				//result = "busy "
 				fmt.Println(">>>>........................ thread is busy")
 			}
 			
