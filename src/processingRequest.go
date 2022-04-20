@@ -18,6 +18,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 
 	if !gaFlag {
 		gaFlag = true
+		fmt.Println(">>>> flag is ", gaFlag)
 
 		str := strings.TrimRight(request, "|")
 		pl := strings.Split(str, " ")
