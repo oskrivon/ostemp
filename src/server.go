@@ -84,5 +84,6 @@ func server(network, address string) {
 		//result, _ = processingClientRequest(str/* , &wg */)
 
 		conn.Write([]byte(result))
+		result = ""
 	}
 }
