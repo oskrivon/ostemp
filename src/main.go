@@ -13,11 +13,13 @@ import (
 	"github.com/jacobsa/go-serial/serial"
 )
 
-var logName string
-var currentSystem systemComfig
-var commands map[string]command
-
-var settings []byte
+var (
+	logName string
+	currentSystem systemComfig
+	commands map[string]command
+	settings []byte
+	gaFlag bool
+)
 
 //var wg sync.WaitGroup
 
