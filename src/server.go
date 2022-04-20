@@ -6,7 +6,6 @@ import (
 	"net"
 	"strings"
 	"sync"
-	"time"
 )
 
 func server(network, address string) {
@@ -74,12 +73,10 @@ func server(network, address string) {
 				go func() {
 					//mutex2.Lock()
 					conn.Write([]byte("busy "))
-					time.Sleep(1 * time.Second)
 					result = processingClientRequest(str, &wg2)
 					//conn.Write([]byte(result))
 					//mutex2.Unlock()
 					conn.Write([]byte("free "))
-					time.Sleep(1 * time.Second)
 				}()
 			} else {
 				result = "busy "
