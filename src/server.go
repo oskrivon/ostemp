@@ -62,7 +62,7 @@ func server(network, address string) {
 			go func() {
 				mutex.Lock()
 				result = processingClientRequest(str, &wg1)
-				conn.Write([]byte(result))
+				//conn.Write([]byte(result))
 				mutex.Unlock()
 			}()
 			//wg1.Wait()
@@ -72,7 +72,7 @@ func server(network, address string) {
 			if !gaFlag {
 				go func() {
 					result = processingClientRequest(str, &wg2)
-					conn.Write([]byte(result))
+					//conn.Write([]byte(result))
 				}()
 			} else {
 				fmt.Println(">>>> thread is busy")
@@ -83,7 +83,7 @@ func server(network, address string) {
 
 		//result, _ = processingClientRequest(str/* , &wg */)
 
-		//conn.Write([]byte(result))
+		conn.Write([]byte(result))
 		result = ""
 	}
 }
