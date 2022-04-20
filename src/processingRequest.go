@@ -123,8 +123,11 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 			fmt.Println(result)
 			time.Sleep(1 * time.Second)
 		}
+
+		gaFlag = false
 	} else {
 		result = "xxx"
+		fmt.Print("no stream!!!")
 	}
 
 	return result
