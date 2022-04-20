@@ -25,7 +25,7 @@ func server(network, address string) {
 	var wg1, wg2 sync.WaitGroup
 	var result string
 
-	var mutex/* , mutex2  */sync.Mutex
+	var mutex, mutex2 sync.Mutex
 
 	for {
 		//var result string
@@ -71,8 +71,10 @@ func server(network, address string) {
 			//wg2.Add(1)
 			if !gaFlag {
 				go func() {
+					mutex2.Lock()
 					result = processingClientRequest(str, &wg2)
 					//conn.Write([]byte(result))
+					mutex2.Unlock()
 				}()
 			} else {
 				fmt.Println(">>>> thread is busy")
