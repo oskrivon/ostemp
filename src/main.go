@@ -18,7 +18,7 @@ var (
 	currentSystem systemComfig
 	commands map[string]command
 	settings []byte
-	gaFlag bool
+	gaFlag bool  = false
 )
 
 //var wg sync.WaitGroup
