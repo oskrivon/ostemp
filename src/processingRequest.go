@@ -131,5 +131,6 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		fmt.Print("no stream!!!")
 	}
 
+	fmt.Println(result)
 	return result
 }
