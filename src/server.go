@@ -70,9 +70,14 @@ func server(network, address string) {
 
 		case "get_raw_data", "get_ga", "set_ga", "get_ppm":
 			//wg2.Add(1)
-			go func() {
-				result = processingClientRequest(str, &wg2)
-			}()
+			if !gaFlag {
+				go func() {
+					result = processingClientRequest(str, &wg2)
+				}()
+			} else {
+				fmt.Println(">>>> thread is busy")
+			}
+			
 			//wg2.Wait()
 		}
 
