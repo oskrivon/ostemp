@@ -372,6 +372,9 @@ class GasBench(QtWidgets.QMainWindow):
             self.gui.ppm_2.setText(server_array[9])
             self.gui.ppm_3.setText(server_array[11])
 
+        elif server_array[0] == "busy":
+            self.gui.temperature.setText("axaxaxaxaxa")
+
     def average_calculation(self):
         sampling_depth = int(self.gui.GasType_3.text())
         averages_array = []
