@@ -77,7 +77,7 @@ func server(network, address string) {
 					mutex2.Unlock()
 				}()
 			} else {
-				fmt.Println(">>>> thread is busy")
+				fmt.Println(">>>>........................ thread is busy")
 			}
 			
 			//wg2.Wait()
