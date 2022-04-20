@@ -23,11 +23,12 @@ func server(network, address string) {
 	}
 
 	var wg1, wg2 sync.WaitGroup
-	var result string
+	//var result string
 
 	var mutex/* , mutex2  */sync.Mutex
 
 	for {
+		var result string
 		message, err := bufio.NewReader(conn).ReadString('|')
 		if err != nil {
 			fmt.Println("no accept: ", err)
