@@ -79,7 +79,7 @@ func main() {
 }
 
 func rrr(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(">>>>> http server is ok!!!")
+	fmt.Println(">>>>> http server is ok!!!", " ", w, "|", r)
 	fmt.Fprintf(w, "Hello, %s!\n", r.URL.Path[1:])
 }
 
