@@ -67,7 +67,7 @@ def ping():
 
     while True:
         data_raw = client_sock.recv(1)
-        if data_raw == b'0':
+        if data_raw == b'|':
             break
         data = data + data_raw
         print(">>> data: ", data)
