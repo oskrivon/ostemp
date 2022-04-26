@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net"
+	"net/http"
 	"strconv"
 	"strings"
 	"sync"
@@ -41,6 +42,9 @@ func main() {
 
 	commands = safeCommands()
 
+	go func ()  {
+		http.HandleFunc("/", rrr)
+	}()
 
 	go func ()  {
 		listener, err := net.Listen("tcp", ":8082")
@@ -60,6 +64,7 @@ func main() {
 			input := make([]byte, 1024)
 
 			n, err := conn.Read(input)
+			
 			if err != nil || n == 0 {
 				fmt.Println(">>>> read error", err)
 				break
@@ -71,6 +76,10 @@ func main() {
 	}()
 
 	server("tcp", ":8081")
+}
+
+func rrr(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(">>>>> http server is ok!!!")
 }
 
 func (ga *gasAnalyzer) sendCommand(command command, id byte /* , c chan []byte */) []byte {
