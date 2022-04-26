@@ -44,6 +44,7 @@ func main() {
 
 	go func ()  {
 		http.HandleFunc("/", rrr)
+		http.ListenAndServe(":8082", nil)
 	}()
 
 	go func ()  {

@@ -42,7 +42,7 @@ connection = http.client.HTTPConnection(HOST, PORT2, timeout=10)
 client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_sock.connect(addr)
 
-connection.request("GET", "/gaga")
+connection.request("GET", "/")
 
 now = datetime.now().strftime("%Y%m%d-%H%M%S")
 columns = ['time',
