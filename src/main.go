@@ -65,8 +65,7 @@ func main() {
 				break
 			}
 
-			fmt.Println(">>>>> input byte: ", input)
-			fmt.Println(">>>>> input byte: ", string(input))
+			fmt.Println(">>>>> input: ", string(input))
 
 		}
 	}()
