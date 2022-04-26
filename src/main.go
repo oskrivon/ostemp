@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -47,7 +46,7 @@ func main() {
 		http.ListenAndServe(":8082", nil)
 	}()
 
-	go func ()  {
+/* 	go func ()  {
 		listener, err := net.Listen("tcp", ":8082")
 		if err != nil {
 			fmt.Println(">>>>> new server is failed!!!!", err)
@@ -74,7 +73,7 @@ func main() {
 			fmt.Println(">>>>> input: ", string(input))
 
 		}
-	}()
+	}() */
 
 	server("tcp", ":8081")
 }
