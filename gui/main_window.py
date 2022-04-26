@@ -33,10 +33,11 @@ import http.client
 HOST = '10.70.0.228'
 #HOST = config[0]["ip"]
 PORT = 8081
+PORT2 = 8082
 
 addr = (HOST, PORT)
 
-connection = http.client.HTTPConnection(HOST, PORT, timeout=10)
+connection = http.client.HTTPConnection(HOST, PORT2, timeout=10)
 
 client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_sock.connect(addr)
