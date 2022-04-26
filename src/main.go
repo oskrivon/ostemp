@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"io"
+	"net"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -41,6 +44,25 @@ func main() {
 	commands = safeCommands()
 
 	server("tcp", ":8081")
+
+	go func ()  {
+		listener, err := net.Listen("tcp", ":8081")
+		if err != nil {
+			fmt.Println(">>>>> new server is failed!!!!", err)
+		}
+
+		fmt.Println(">>>>> server is OK!")
+
+		for {
+			conn, err := listener.Accept()
+			if err != nil {
+				fmt.Println(">>>>>> new connection is failed!!!", err)
+				return
+			}
+
+			fmt.Println(io.Copy(os.Stdout, conn))
+		}
+	}()
 }
 
 func (ga *gasAnalyzer) sendCommand(command command, id byte /* , c chan []byte */) []byte {

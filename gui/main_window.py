@@ -21,6 +21,7 @@ import csv
 import time
 import yaml
 from pprint import pprint
+import http.client
 
 #with open("gui\config.yaml") as f:
 #    config = yaml.safe_load(f)
@@ -35,8 +36,12 @@ PORT = 8081
 
 addr = (HOST, PORT)
 
+connection = http.client.HTTPConnection(HOST, PORT, timeout=10)
+
 client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_sock.connect(addr)
+
+connection.request("GET", "/")
 
 now = datetime.now().strftime("%Y%m%d-%H%M%S")
 columns = ['time',
