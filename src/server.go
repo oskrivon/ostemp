@@ -72,13 +72,13 @@ func server(network, address string) {
 			if !gaFlag {
 				go func() {
 					//mutex2.Lock()
-					conn.Write([]byte("busy|"))
-					conn.Write([]byte(""))
+					conn.Write([]byte("busy |"))
+					//conn.Write([]byte(""))
 					result = processingClientRequest(str, &wg2) + "|"
 					//conn.Write([]byte(result))
 					//mutex2.Unlock()
-					conn.Write([]byte("free|"))
-					conn.Write([]byte(""))
+					conn.Write([]byte("free |"))
+					//conn.Write([]byte(""))
 				}()
 			} else {
 				//result = "busy "
