@@ -63,10 +63,19 @@ print(FILENAME)
 
 @QtCore.pyqtSlot()
 def ping():
-    data = client_sock.recv(1024)
+    data = b''
+
+    while True:
+        data_raw = client_sock.recv(1)
+        if data_raw == b'0':
+            break
+        data = data + data_raw
+        print(">>> data: ", data)
+    #print(">>> raw data from server", type(
+       # data), data_raw, " len:", len(data_raw))
     server_data = data.decode(encoding="utf-8")
     server_data = server_data[:-1]
-    print("server_data", server_data)
+    print(">>> server_data", server_data)
     return server_data
 
 

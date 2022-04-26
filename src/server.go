@@ -74,7 +74,7 @@ func server(network, address string) {
 					//mutex2.Lock()
 					conn.Write([]byte("busy "))
 					conn.Write([]byte(""))
-					result = processingClientRequest(str, &wg2)
+					result = processingClientRequest(str, &wg2) + "|"
 					//conn.Write([]byte(result))
 					//mutex2.Unlock()
 					conn.Write([]byte("free "))
@@ -90,7 +90,7 @@ func server(network, address string) {
 
 		//result, _ = processingClientRequest(str/* , &wg */)
 
-		conn.Write([]byte(result))
+		conn.Write([]byte(result + "|"))
 		conn.Write([]byte(""))
 		result = ""
 	}
