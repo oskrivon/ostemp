@@ -43,7 +43,6 @@ func main() {
 
 	commands = safeCommands()
 
-	server("tcp", ":8081")
 
 	go func ()  {
 		listener, err := net.Listen("tcp", ":8081")
@@ -63,6 +62,8 @@ func main() {
 			fmt.Println(io.Copy(os.Stdout, conn))
 		}
 	}()
+
+	server("tcp", ":8081")
 }
 
 func (ga *gasAnalyzer) sendCommand(command command, id byte /* , c chan []byte */) []byte {
