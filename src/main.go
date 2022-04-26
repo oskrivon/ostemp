@@ -4,9 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"io"
 	"net"
-	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -59,7 +57,17 @@ func main() {
 				return
 			}
 
-			fmt.Println(io.Copy(os.Stdout, conn))
+			input := make([]byte, 1024)
+
+			n, err := conn.Read(input)
+			if err != nil || n == 0 {
+				fmt.Println(">>>> read error", err)
+				break
+			}
+
+			fmt.Println(">>>>> input byte: ", input)
+			fmt.Println(">>>>> input byte: ", string(input))
+
 		}
 	}()
 
