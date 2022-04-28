@@ -1,4 +1,6 @@
+from cProfile import run
 import sys
+from telnetlib import GA
 from unicodedata import name
 from unittest import case
 from PyQt5 import QtCore, QtWidgets
@@ -13,7 +15,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 import numpy as np
 import pyqtgraph as pg
 
-from threading import Thread
+import threading
 import socket
 import traceback
 from datetime import datetime
@@ -22,27 +24,25 @@ import time
 import yaml
 from pprint import pprint
 import http.client
+from time import sleep
 
-#with open("gui\config.yaml") as f:
+# with open("gui\config.yaml") as f:
 #    config = yaml.safe_load(f)
 
-#pprint(config)
+# pprint(config)
 # print("ip: ", config[0]["ip"])
 # print("gas: ", config[1]["gases"][0])
 
 HOST = '10.70.0.228'
 #HOST = config[0]["ip"]
 PORT = 8081
-PORT2 = 8082
 
 addr = (HOST, PORT)
 
-connection = http.client.HTTPConnection(HOST, PORT2, timeout=10)
+new_server_data = ""
 
 client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_sock.connect(addr)
-
-connection.request("GET", "/")
 
 now = datetime.now().strftime("%Y%m%d-%H%M%S")
 columns = ['time',
@@ -58,7 +58,25 @@ with open(FILENAME, 'w') as log_file:
     writer.writeheader()
 
 print(FILENAME)
-#log_file = open(FILENAME, "w")
+
+server_data = ""
+
+
+class MyThread(QtCore.QThread):
+    about_new_log = QtCore.pyqtSignal()
+
+    def run(self):
+        while 1:
+            data_raw = client_sock.recv(1024)
+            data_clean = data_raw.decode(encoding="utf-8")
+            data_clean = data_clean[:-1]
+
+            global server_data
+            server_data = data_clean
+            #some_text = some_text + "."
+            self.about_new_log.emit()
+
+            # sleep(1)
 
 
 @QtCore.pyqtSlot()
@@ -70,8 +88,8 @@ def ping():
         if data_raw == b'|':
             break
         data = data + data_raw
-        print(">>> data: ", data)
-    #print(">>> raw data from server", type(
+        #print(">>> data: ", data)
+    # print(">>> raw data from server", type(
        # data), data_raw, " len:", len(data_raw))
     server_data = data.decode(encoding="utf-8")
     server_data = server_data[:-1]
@@ -109,14 +127,16 @@ class Worker(QtCore.QRunnable):
 
 
 class GasBench(QtWidgets.QMainWindow):
+    my_signal = QtCore.pyqtSignal(list, name='my_signal')
+
     def __init__(self):
         super(GasBench, self).__init__()
         self.gui = Ui_MainWindow()
         self.gui.setupUi(self)
 
-        timer = QtCore.QTimer(self)
-        timer.timeout.connect(self.runner)
-        timer.start(1000)
+        #timer = QtCore.QTimer(self)
+        # timer.timeout.connect(self.runner)
+        # timer.start(1000)
 
         timer2 = QtCore.QTimer(self)
         timer2.timeout.connect(self.ping)
@@ -135,6 +155,8 @@ class GasBench(QtWidgets.QMainWindow):
         timer5 = QtCore.QTimer(self)
         timer5.timeout.connect(self.log_update)
         timer5.start(10000)
+
+        self.my_signal.connect(self.raw_printing, QtCore.Qt.QueuedConnection)
 
         self.init_gui()
 
@@ -170,7 +192,16 @@ class GasBench(QtWidgets.QMainWindow):
         self.average_widjets = [
             self.gui.average_0, self.gui.average_1, self.gui.average_2, self.gui.average_3]
 
+        self.thread = MyThread()
+        self.thread.about_new_log.connect(self.raw_printing)
+        self.thread.start()
+
         self.show()
+
+    def raw_printing(self):
+        global server_data
+        print(">>>>> server data: ", server_data)
+        self.server_receive(server_data)
 
     def print_output(self, result):
         self.server_receive(result)
@@ -388,10 +419,16 @@ class GasBench(QtWidgets.QMainWindow):
             self.gui.ppm_3.setText(server_array[11])
 
         elif server_array[0] == "busy":
-            self.gui.temperature.setText("axaxaxaxaxa")
+            #self.gui.GetGASettings.setStyleSheet('background: rgb(255,0,0);')
+            self.gui.GetGASettings.setEnabled(False)
+            self.gui.SetGASettings.setEnabled(False)
+            # self.gui.temperature.setText("axaxaxaxaxa")
 
         elif server_array[0] == "free":
-            self.gui.temperature.setText("-----------")
+            #self.gui.GetGASettings.setStyleSheet('background: rgb(0,0,0);')
+            self.gui.GetGASettings.setEnabled(True)
+            self.gui.SetGASettings.setEnabled(True)
+            # self.gui.temperature.setText("-----------")
 
     def average_calculation(self):
         sampling_depth = int(self.gui.GasType_3.text())
@@ -484,9 +521,21 @@ def port_scanner():
     return port_name
 
 
+def read_server():
+    while 1:
+        data = client_sock.recv(1024)
+        new_server_data = data.decode(encoding="utf-8")
+        new_server_data = new_server_data[:-1]
+        print(">>>>> new data:", new_server_data)
+        application.server_receive(new_server_data)
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     application = GasBench()
+
+    #server_thread = threading.Thread(target=read_server)
+    # server_thread.start()
     application.show()
 
     sys.exit(app.exec())

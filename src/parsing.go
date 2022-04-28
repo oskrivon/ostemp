@@ -129,7 +129,6 @@ func parseResponse(in []byte, marker string) (response string, err error) {
 				strconv.FormatFloat(float64(math.Round(float64(ds.amp2ppm*1000*1000*1000))), 'f', -1, 64) + " " +
 				strconv.FormatFloat(float64(ds.responseTime), 'f', -1, 64) + " " +
 				strconv.FormatFloat(float64(math.Round(float64(ds.baseLineShift * 100)) / 100), 'f', -1, 64) + " "
-			//fmt.Println("ds:", resultString)ds.baseLineShift
 		}
 
 	case "set ga options":
@@ -140,18 +139,8 @@ func parseResponse(in []byte, marker string) (response string, err error) {
 		
 		k := 1.41 / 125
 		r := uint8(in[0])
-		//l := uint8(in[1])
 
 		f := k * float64(r)
-		//r := uint8(binary.LittleEndian.Uint16.Uint16(in[0]))
-		//err = binary.Read(buf, binary.LittleEndian, &r)
-		
-		//fmt.Println("int: ", f)
-/* 		if err != nil {
-			fmt.Println("___flow___", err, "error!")
-			return "error", err
-		} */
-		//fmt.Println("___flow___", f)
 
 		resultString = strconv.FormatFloat(f, 'f', -1, 64)
 	case "get ppm":

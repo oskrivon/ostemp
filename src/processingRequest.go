@@ -16,19 +16,8 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		err error
 	)
 
-	//gaFlag = true
-	//fmt.Println(">>>> flag is ", gaFlag)
-
 	str := strings.TrimRight(request, "|")
 	pl := strings.Split(str, " ")
-
-	//defer wg.Done()
-
-	//c := make(chan []byte)
-
-/* 	if pl[0] != "set_flow" || pl[0] != "get_flow" {
-		gaFlag = true
-	} */
 	
 	switch pl[0] {
 	case "set_flow":
@@ -136,10 +125,6 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		gaFlag = false
 	}
 
-/* 	if gaFlag {
-		gaFlag = false
-	} */
-	//gaFlag = false
 	fmt.Println(result)
 	return result
 }
