@@ -32,7 +32,7 @@ func server(network, address string) {
 		if err != nil {
 			fmt.Println("no accept: ", err)
 			conn.Close()
-			continue
+			break
 		}
 
 		fmt.Println("message >>>> ", message)
