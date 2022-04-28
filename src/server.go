@@ -21,7 +21,7 @@ func server(network, address string) {
 		conn, err := ln.Accept()
 		if err != nil {
 			fmt.Println("no accept", err)
-			continue
+			break
 		}
 	
 		var wg1, wg2 sync.WaitGroup
