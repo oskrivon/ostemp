@@ -13,7 +13,7 @@ func server(network, address string) {
 		ln, err := net.Listen(network, address)
 		if err != nil {
 			fmt.Println("no listen: ", err)
-			return
+			continue
 		}
 	
 		defer ln.Close()
@@ -21,6 +21,7 @@ func server(network, address string) {
 		conn, err := ln.Accept()
 		if err != nil {
 			fmt.Println("no accept", err)
+			continue
 		}
 	
 		var wg1, wg2 sync.WaitGroup
