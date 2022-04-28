@@ -13,7 +13,7 @@ func server(network, address string) {
 		ln, err := net.Listen(network, address)
 		if err != nil {
 			fmt.Println("no listen: ", err)
-			continue
+			break
 		}
 	
 		defer ln.Close()
