@@ -220,7 +220,9 @@ class GasBench(QtWidgets.QMainWindow):
         self.send_to_server("get_flow", "")
 
     def clean_air(self):
-        self.send_to_server("clean_air", "")
+        send_string = str(0) + " " + str(1) + "|"
+        self.send_to_server("set_flow", send_string)
+        #self.send_to_server("clean_air", "")
 
     def get_ppm(self):
         self.send_to_server("get_ppm", "")
