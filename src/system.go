@@ -42,6 +42,9 @@ type System struct {
 		ParityMode uint `yaml:"parityMode"`
 		InterCharacterTimeout uint `yaml:"interCharacterTimeout"`
 	} `yaml:"flowController"`
+
+	fcId1 byte `yaml:"fcID1"`
+	fcId2 byte `yaml:"fcId2"`
 }
 
 type gasAnalyzer struct {
@@ -58,6 +61,8 @@ type systemComfig struct {
 
 	gaConfig serial.OpenOptions
 	fcConfig serial.OpenOptions
+
+	fcId1, fcId2 byte
 }
 
 type command struct {
@@ -102,6 +107,9 @@ func createSystem() systemComfig {
 	systemComfig.fcConfig.ParityMode = serial.ParityMode(system.FlowController.ParityMode)
 	systemComfig.fcConfig.InterCharacterTimeout = system.FlowController.InterCharacterTimeout
 
+	systemComfig.fcId1 = system.fcId1
+	systemComfig.fcId2 = system.fcId2
+	
 	fmt.Println(system)
 	
 	return systemComfig

@@ -27,7 +27,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 
 		fmt.Println(uint16(value))
 		
-		response, err = currentSystem.flowController.sendCommand(commands["set flow"], 0x2, uint16(value), "set")
+		response, err = currentSystem.flowController.sendCommand(commands["set flow"], currentSystem.fcId1, uint16(value), "set")
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -37,7 +37,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		value = setPoint / k
 
 		fmt.Println(uint16(value))
-		response, err = currentSystem.flowController.sendCommand(commands["set flow"], 0x3, uint16(value), "set")
+		response, err = currentSystem.flowController.sendCommand(commands["set flow"], currentSystem.fcId2, uint16(value), "set")
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -46,7 +46,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 	case "get_flow":
 		var flow1, flow2 string
 		result = "get_flow"
-		response, err = currentSystem.flowController.sendCommand(commands["get flow"], 0x2, 1, "get")
+		response, err = currentSystem.flowController.sendCommand(commands["get flow"], currentSystem.fcId1, 1, "get")
 		if err != nil {
 			result = "FC error"
 			fmt.Println("response from fc >>>> ", err)
@@ -55,7 +55,7 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 			flow1, _ = parseResponse(response, "get flow")
 		}
 
-		response, err = currentSystem.flowController.sendCommand(commands["get flow"], 0x3, 1, "get")
+		response, err = currentSystem.flowController.sendCommand(commands["get flow"], currentSystem.fcId2, 1, "get")
 		if err != nil {
 			result = "FC error"
 			fmt.Println("response from fc >>>> ", err)
