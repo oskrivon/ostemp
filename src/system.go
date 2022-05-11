@@ -44,7 +44,7 @@ type System struct {
 	} `yaml:"flowController"`
 
 	FcId1 byte `yaml:"fcID1"`
-	FcId2 byte `yaml:"fcId2"`
+	FcId2 byte `yaml:"fcID2"`
 }
 
 type gasAnalyzer struct {
