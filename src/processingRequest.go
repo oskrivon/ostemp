@@ -125,12 +125,16 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		gaFlag = false
 
 	case "clean_air":
-		_, err = currentSystem.flowController.sendCommand(commands["set flow"], currentSystem.fcId1, 1, "set")
+		k := 1.41 / 125
+		value1 := 1 / k
+		value2 := 1 / k
+		
+		_, err = currentSystem.flowController.sendCommand(commands["set flow"], currentSystem.fcId1, uint16(value1), "set")
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		_, err = currentSystem.flowController.sendCommand(commands["set flow"], currentSystem.fcId1, 0, "set")
+		_, err = currentSystem.flowController.sendCommand(commands["set flow"], currentSystem.fcId1, uint16(value2), "set")
 		if err != nil {
 			fmt.Println(err)
 		}
