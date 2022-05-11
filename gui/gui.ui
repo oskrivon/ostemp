@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1405</width>
+    <width>1263</width>
     <height>893</height>
    </rect>
   </property>
@@ -1197,6 +1197,163 @@
           </property>
           <property name="text">
            <string>Задать смещения</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_15">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Задать газ в ячейке</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_18">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Ячейка</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoxCell">
+            <item>
+             <property name="text">
+              <string>0</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>3</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QLabel" name="label_19">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Газ</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoxGasType">
+            <item>
+             <property name="text">
+              <string>non</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CO</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>NO2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SO2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>H2S</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>NH3</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CH2O</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>O3</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>NO</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HCl</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Cl2</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="SetGasType">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Задать</string>
           </property>
          </widget>
         </item>

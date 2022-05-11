@@ -22,20 +22,15 @@ from datetime import datetime
 import csv
 import time
 import yaml
-from pprint import pprint
-import http.client
-from time import sleep
 
-# with open("gui\config.yaml") as f:
-#    config = yaml.safe_load(f)
+with open("gui\dist\config.yaml") as f:
+    config = yaml.safe_load(f)
 
-# pprint(config)
-# print("ip: ", config[0]["ip"])
-# print("gas: ", config[1]["gases"][0])
+print(config)
+print("ip: ", config["netConfig"]["ip"])
 
-HOST = '10.70.0.228'
-#HOST = config[0]["ip"]
-PORT = 8081
+HOST = config["netConfig"]["ip"]
+PORT = config["netConfig"]["port"]
 
 addr = (HOST, PORT)
 
@@ -167,6 +162,7 @@ class GasBench(QtWidgets.QMainWindow):
         self.gui.SetGASettings.clicked.connect(self.send_gas_sensor_params)
         self.gui.pushButton.clicked.connect(self.send_flow_value)
         self.gui.average_calc.clicked.connect(self.average_calculation)
+        self.gui.SetGasType.clicked.connect(self.set_gas_type)
 
         self.curve = []
         self.timer_graph = [[], [], [], []]
@@ -241,6 +237,26 @@ class GasBench(QtWidgets.QMainWindow):
         self.send_to_server("set_flow_set", send_string)
         print(gas_type, target_flow, target_concentration)
 
+    def set_gas_type(self):
+        column = int(self.gui.comboBoxCell.currentText())
+        gasTemplate = self.gui.comboBoxGasType.currentText()
+        gasType = config["gases"][gasTemplate]
+
+        self.customFill(column, 1, gasType["v_ref"])
+        self.customFill(column, 2, gasType["v_ref_comp"])
+        self.customFill(column, 3, gasType["afe_bias"])
+        self.customFill(column, 4, gasType["afe_r_gain"])
+        self.customFill(column, 5, gasType["rangeMin"])
+        self.customFill(column, 6, gasType["rangeMax"])
+        self.customFill(column, 7, gasType["resolution"])
+        self.customFill(column, 8, gasType["amp2ppm"])
+        self.customFill(column, 9, gasType["responseTime"])
+        self.customFill(column, 10, gasType["baselineShift"])
+
+    def customFill(self, column, position, value):
+        self.gui.tableGASettings.setItem(
+            position, column, QTableWidgetItem(str(value)))
+
     def send_gas_sensor_params(self):
         settings = []
         send_string = ""
@@ -256,7 +272,7 @@ class GasBench(QtWidgets.QMainWindow):
                     number_of_gas = j
             settings[i * 11] = str(number_of_gas)
 
-        xxx = [self.gui.humidity_2.text()]
+        xxx = [self.gui.humidity_2.text().encode('utf-8')]
 
         xxx.extend(settings)
         settings = xxx
@@ -352,8 +368,9 @@ class GasBench(QtWidgets.QMainWindow):
             print(server_array)
 
             # wrong widjet name!!!!!!
-            self.gui.humidity_2.setText(
-                bytes.fromhex(server_array[2]).decode('utf-8'))
+            #self.gui.humidity_2.setText(
+            #   bytes.fromhex(server_array[2]).decode('utf-8'))
+            self.gui.humidity_2.setText(server_array[2])
 
             sells_settings = server_array[3:]
             print(">>>>>>", sells_settings)
