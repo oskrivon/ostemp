@@ -123,6 +123,17 @@ func processingClientRequest(request string, wg *sync.WaitGroup) string {
 		fmt.Println(result)
 		time.Sleep(2 * time.Second)
 		gaFlag = false
+
+	case "clean_air":
+		_, err = currentSystem.flowController.sendCommand(commands["set flow"], currentSystem.fcId1, 1, "set")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		_, err = currentSystem.flowController.sendCommand(commands["set flow"], currentSystem.fcId1, 0, "set")
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 	fmt.Println(result)

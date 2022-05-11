@@ -163,6 +163,7 @@ class GasBench(QtWidgets.QMainWindow):
         self.gui.pushButton.clicked.connect(self.send_flow_value)
         self.gui.average_calc.clicked.connect(self.average_calculation)
         self.gui.SetGasType.clicked.connect(self.set_gas_type)
+        self.gui.CleanAir.clicked.connect(self.clean_air)
 
         self.curve = []
         self.timer_graph = [[], [], [], []]
@@ -218,6 +219,9 @@ class GasBench(QtWidgets.QMainWindow):
     def get_flow(self):
         self.send_to_server("get_flow", "")
 
+    def clean_air(self):
+        self.send_to_server("clean_air", "")
+
     def get_ppm(self):
         self.send_to_server("get_ppm", "")
 
@@ -242,6 +246,7 @@ class GasBench(QtWidgets.QMainWindow):
         gasTemplate = self.gui.comboBoxGasType.currentText()
         gasType = config["gases"][gasTemplate]
 
+        self.customFill(column, 0, gasTemplate)
         self.customFill(column, 1, gasType["v_ref"])
         self.customFill(column, 2, gasType["v_ref_comp"])
         self.customFill(column, 3, gasType["afe_bias"])
